@@ -1,0 +1,174 @@
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Crackers Online Order</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#1a0b2e;color:#fff;padding-bottom:70px}
+.top{position:sticky;top:0;z-index:5;background:#2a1248;box-shadow:0 2px 8px #0008}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-weight:700}
+.sb{padding:0 14px 10px}a{color:#ffd200;text-decoration:none}main{max-width:900px;margin:auto;padding:14px}
+.hero{text-align:center;padding:40px 16px;background:radial-gradient(circle at 50% 0,#dd2476,#1a0b2e 70%)}.hero h1{font-size:2rem;margin:0 0 8px}
+.btn{display:inline-block;border:0;border-radius:10px;padding:11px 18px;font-weight:700;background:linear-gradient(90deg,#f7971e,#ffd200);color:#222;cursor:pointer;font-size:1rem}.btn.g{background:#25d366;color:#fff}.btn.s{background:#555;color:#fff;padding:6px 10px}
+.ads{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:16px 0}
+.ad{border-radius:16px;padding:22px;animation:p 3s infinite alternate}.ad b{font-size:1.3rem;display:block}.ad span{font-size:2rem}@keyframes p{to{transform:scale(1.03)}}
+h3{margin:18px 0 6px;color:#ffd200}
+.row,.crow{display:flex;gap:8px;align-items:center;background:#2a1248;padding:10px;border-radius:10px;margin:5px 0}.nm{flex:1}.nm small{display:block;color:#aaa}
+.pr{text-align:right;min-width:80px}.pr s{color:#999}.pr em{color:#4cff8a;font-style:normal;font-size:.8rem}
+input{padding:10px;border-radius:8px;border:1px solid #555;background:#12061f;color:#fff;font-size:1rem;width:100%}.row input,.crow input{width:70px}
+.tot{font-size:1.4rem;font-weight:800;color:#ffd200}
+.bar{position:fixed;bottom:0;left:0;right:0;z-index:6;background:#2a1248;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 8px #0008}
+.mo{position:fixed;inset:0;background:#000b;z-index:10;display:flex;align-items:flex-end;justify-content:center}.mo[hidden]{display:none}
+.mb{background:#1a0b2e;width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+.nav{gap:8px}#cn{flex:1;min-width:0;font-size:1.1rem;outline:0;border-bottom:1px dashed #ffd200;padding:2px 4px;cursor:text;overflow:hidden}.btn.s{white-space:nowrap}.crow{flex-wrap:wrap}.crow input.n{flex:1;min-width:130px;width:auto}.crow input.sm{width:78px}
+.mrow{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:6px}.crow .a{min-width:70px;text-align:right}
+</style>
+<div class=top><div class=nav><div id=cn contenteditable=true spellcheck=false title='Click to edit company name'>Company Name</div><span style=white-space:nowrap><button class=btn onclick=oc()>🛒 <span id=t1>0 · ₹0</span></button></span></div>
+<div class=sb><input id=q placeholder="🔍 Search crackers..." oninput=render()></div></div>
+<section class=hero><h1>Diwali Crackers – Direct from Sivakasi</h1><p>Select crackers, add to cart, download PDF & send on WhatsApp.</p></section>
+<main><div id=ads class=ads></div><h2 id=order>Order Crackers</h2><div id=list></div></main>
+<div class=bar><span>Total: <span id=t2 class=tot>₹0</span></span><button class=btn onclick=oc()>View Cart 🛒</button></div>
+<div id=mo class=mo hidden><div class=mb>
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 style=margin:0>🛒 Your Cart</h3><button class="btn s" onclick=cc()>✕ Close</button></div>
+<div id=cl></div>
+<h3>➕ Add Extra Item</h3><div class=mrow><input id=mn placeholder="Product name"><input id=mp type=number min=0 placeholder=Price><input id=mq type=number min=1 placeholder=Qty><button class=btn onclick=addM()>Add</button></div>
+<p>Total: <span id=t3 class=tot>₹0</span></p>
+<h3>Your Details</h3><input id=nm placeholder=Name><br><br><input id=ph placeholder="Phone number" type=tel><br><br><input id=ad placeholder=Address><br><br>
+<button class=btn onclick=go(0)>⬇ Download PDF</button> <button class="btn g" onclick=go(1)>Send on WhatsApp</button></div></div>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js></script>
+<script>
+/* ===== PRODUCT DATA: GitHub-la inga mattum edit pannunga ===== */
+const DATA = {"shop":{"name": "Company Name", "whatsapp": "919876543210"},
+"ads":[{"t": "Diwali Dhamaka Sale!", "s": "Up to 50% off on Gift Boxes", "c": "#ff512f,#dd2476", "e": "🎆"}, {"t": "Kids Special", "s": "Safe & fun crackers for little ones", "c": "#f7971e,#ffd200", "e": "🧨"}, {"t": "Direct from Sivakasi", "s": "Factory price, doorstep delivery", "c": "#7f00ff,#e100ff", "e": "🚚"}],
+"categories":[
+{"name":"Sound Crackers","discount":0,
+ "items":[
+  {"n": "5\" Laxmi (15Ply)", "r": 75},
+  {"n": "4' Twinkling Star Dlx", "r": 80},
+  {"n": "Big Boss 0.25Kg (1Pc)", "r": 60}
+ ]},
+{"name":"Special Garlands","discount":0,
+ "items":[
+  {"n": "100 Wala", "r": 43, "u": "Pkt"},
+  {"n": "1000 Wala", "r": 165},
+  {"n": "5000 Wala", "r": 825},
+  {"n": "10000 Wala", "r": 1650}
+ ]},
+{"name":"Bombs","discount":0,
+ "items":[
+  {"n": "Hydro Bomb (10 Pcs)", "r": 38},
+  {"n": "Classic Bomb (10 Pcs)", "r": 79},
+  {"n": "Jurassic Bomb (10 Pcs)", "r": 135},
+  {"n": "555 Bomb (10 Pcs)", "r": 99},
+  {"n": "Mega Paper Bomb (10 Pcs)", "r": 65},
+  {"n": "Ganga Jamuna (5 Pcs)", "r": 90}
+ ]},
+{"name":"Ground Chakkar","discount":0,
+ "items":[
+  {"n": "Ground Chakkar Big (10 Pcs)", "r": 29},
+  {"n": "Ground Chakkar Special (10 Pcs)", "r": 58},
+  {"n": "Ground Chakkar Deluxe (10 Pcs)", "r": 110}
+ ]},
+{"name":"Flower Pots","discount":0,
+ "items":[
+  {"n": "Flower Pots Big (10 Pcs)", "r": 43},
+  {"n": "Flower Pots Special (10 Pcs)", "r": 54},
+  {"n": "Colour Koti (10 Pcs)", "r": 180},
+  {"n": "Fancy Colour Pots (5 Pcs)", "r": 205}
+ ]},
+{"name":"Fancy Crackers","discount":0,
+ "items":[
+  {"n": "7 Shot Colour", "r": 165},
+  {"n": "Magic Lolli Flower 10 Shot", "r": 127},
+  {"n": "Magic 12 Shot", "r": 90},
+  {"n": "30 Multi Colour Shot", "r": 340},
+  {"n": "60 Multi Colour Shot", "r": 680},
+  {"n": "100 Multi Colour Shot", "r": 1158},
+  {"n": "120 Multi Colour Shot", "r": 1360},
+  {"n": "240 Multi Colour Shot", "r": 2720},
+  {"n": "Chotta Fancy Colour Collection", "r": 64},
+  {"n": "2\" Fancy Colour Collection", "r": 90},
+  {"n": "3\" Fancy Colour Collection", "r": 280},
+  {"n": "4\" Fancy Colour Collection", "r": 386}
+ ]},
+{"name":"New Arrival Flower Pots","discount":0,
+ "items":[
+  {"n": "Chotta Colour Fountain (5 Pcs)", "r": 108},
+  {"n": "Amazing Fountain", "r": 117},
+  {"n": "Mini Fountain 5 Colour (5 Pcs)", "r": 127},
+  {"n": "Kur Kure 5 Colour", "r": 220},
+  {"n": "Fire Star (Flower Pots)", "r": 126},
+  {"n": "Magic Hot Mix (5 Pcs)", "r": 190},
+  {"n": "Crackling Kingdom", "r": 180},
+  {"n": "Rainbow Rocks", "r": 239}
+ ]},
+{"name":"New Variety Crackers","discount":0,
+ "items":[
+  {"n": "Whizle Rocket (10 Pcs)", "r": 240},
+  {"n": "Butterfly (10 Pcs)", "r": 98},
+  {"n": "New Version Colour 2 in 1", "r": 150},
+  {"n": "Mega Siren (3 Pcs)", "r": 185},
+  {"n": "Dragon Peacock", "r": 191},
+  {"n": "Peacock Mix", "r": 165},
+  {"n": "Sky King Queen (6 Pcs)", "r": 97},
+  {"n": "Mini Size Fancy Crackers (6 Pcs)", "r": 145},
+  {"n": "Mega Size Pencil (2 Pcs)", "r": 235},
+  {"n": "Photo Flash (5 Pcs)", "r": 75},
+  {"n": "Drone (5 Pcs)", "r": 120},
+  {"n": "World Colour Currency", "r": 180},
+  {"n": "Tin Beer", "r": 90}
+ ]},
+{"name":"Kids Crackers","discount":0,
+ "items":[
+  {"n": "Colour Matches (10 Box)", "r": 190},
+  {"n": "Snake Tablet (10 Box)", "r": 80},
+  {"n": "Roll Cap (10 Roll)", "r": 50},
+  {"n": "Chit Put (10 Pcs)", "r": 25},
+  {"n": "Mega Chit Put (10 Pcs)", "r": 35}
+ ]},
+{"name":"Gift Boxes","discount":0,
+ "items":[
+  {"n": "21 Items Crackers", "r": 400},
+  {"n": "25 Items Crackers", "r": 500},
+  {"n": "36 Items Crackers", "r": 800}
+ ]},
+{"name":"Sparklers","discount":0,
+ "items":[
+  {"n": "10 Cm Electric Sparklers (10 Pcs)", "r": 16},
+  {"n": "10 Cm Colour Sparklers (10 Pcs)", "r": 20},
+  {"n": "12 Cm Electric Sparklers (10 Pcs)", "r": 24},
+  {"n": "12 Cm Colour Sparklers (10 Pcs)", "r": 28},
+  {"n": "15 Cm Electric Sparklers (10 Pcs)", "r": 40},
+  {"n": "15 Cm Colour Sparklers (10 Pcs)", "r": 44},
+  {"n": "15 Cm Green Sparklers (10 Pcs)", "r": 55},
+  {"n": "15 Cm Red Sparklers (10 Pcs)", "r": 49},
+  {"n": "50 Cm Electric Sparklers (5 Pcs)", "r": 156},
+  {"n": "50 Cm Colour Sparklers (5 Pcs)", "r": 188}
+ ]}
+]};
+/* ===== END DATA ===== */
+const $=s=>document.querySelector(s),money=n=>'₹'+(+n).toLocaleString('en-IN'),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+let D=DATA,cart={},M=[];const disc=(it,c)=>it.d??c.discount??0,fin=(it,c)=>Math.round(it.r*(1-disc(it,c)/100)*100)/100;
+const cn=$('#cn'),co=()=>cn.innerText.trim()||'Company Name';cn.textContent=D.shop.name||'Company Name';
+cn.onkeydown=e=>{if(e.key=='Enter'){e.preventDefault();cn.blur()}};
+$('#ads').innerHTML=D.ads.map(a=>`<div class=ad style="background:${a.img?`url(${a.img}) center/cover`:`linear-gradient(135deg,${a.c})`}"><span>${a.e||''}</span><b>${a.t}</b>${a.s}</div>`).join('');
+function render(){const q=$('#q').value.toLowerCase();$('#list').innerHTML=D.categories.map((c,ci)=>{const r=c.items.map((it,ii)=>[it,ii]).filter(x=>x[0].n.toLowerCase().includes(q));
+return r.length?`<h3>${c.name}${c.discount?` <em style="color:#4cff8a;font-size:.8rem">${c.discount}% OFF</em>`:''}</h3>`+r.map(([it,ii])=>{const k=ci+'_'+ii,d=disc(it,c);return `<div class=row><div class=nm>${it.n}<small>per ${it.u||'Box'}</small></div><div class=pr>${d?`<s>${it.r}</s> <em>${d}% off</em><br>`:''}<b>${money(fin(it,c))}</b></div><input type=number min=0 placeholder=0 value="${cart[k]||''}" oninput="cart['${k}']=+this.value;tot()"></div>`}).join(''):''}).join('')}
+function lines(){return Object.entries(cart).filter(e=>e[1]>0).map(([k,q])=>{const[ci,i]=k.split('_'),c=D.categories[ci],it=c.items[i],p=fin(it,c);return{n:it.n,p,q,a:p*q}}).concat(M.filter(m=>m.q>0).map(m=>({n:m.n,p:m.p,q:m.q,a:m.p*m.q})))}
+function tot(){const L=lines(),t=L.reduce((s,l)=>s+l.a,0);$('#t1').textContent=L.length+' · '+money(t);$('#t2').textContent=$('#t3').textContent=money(t);return t}
+function cartList(){const R=[];Object.keys(cart).filter(k=>cart[k]>0).forEach(k=>{const[ci,i]=k.split('_'),c=D.categories[ci],it=c.items[i],p=fin(it,c);R.push(`<div class=crow><div class=nm>${it.n}<small>${money(p)} each</small></div><input type=number min=0 value=${cart[k]} oninput="setQ('${k}',this.value,this)"><b class=a>${money(p*cart[k])}</b><button class="btn s" onclick="delete cart['${k}'];rl()">✕</button></div>`)});
+M.forEach((m,i)=>R.push(`<div class=crow data-i=${i}><input class=n value="${esc(m.n)}" oninput="M[${i}].n=this.value"><input class=sm type=number min=0 value=${m.p} placeholder=Price oninput="M[${i}].p=+this.value;ua(this)"><input class=sm type=number min=0 value=${m.q} placeholder=Qty oninput="M[${i}].q=+this.value;ua(this)"><b class=a>${money(m.p*m.q)}</b><button class="btn s" onclick="M.splice(${i},1);rl()">✕</button></div>`));
+$('#cl').innerHTML=R.join('')||'<p style=color:#aaa>Cart empty. Products select pannunga illa extra item add pannunga.</p>'}
+function ua(el){const r=el.closest('.crow'),m=M[r.dataset.i];r.querySelector('.a').textContent=money(m.p*m.q);tot()}
+function setQ(k,v,el){cart[k]=+v;const[ci,i]=k.split('_'),c=D.categories[ci];el.closest('.crow').querySelector('.a').textContent=money(fin(c.items[i],c)*cart[k]);tot()}
+function rl(){cartList();render();tot()}
+function addM(){const n=$('#mn').value.trim(),p=+$('#mp').value,q=+$('#mq').value;if(!n||!$('#mp').value||!(p>=0)||!(q>0))return alert('Product name, price, quantity enter pannunga');
+M.push({n,p,q});$('#mn').value=$('#mp').value=$('#mq').value='';rl()}
+function oc(){cartList();tot();$('#mo').hidden=false}function cc(){$('#mo').hidden=true}
+function chk(){if(!lines().length){alert('Cart empty');return 0}if(!$('#nm').value.trim()||!/^\d{10}$/.test($('#ph').value)||!$('#ad').value.trim()){alert('Enter name, 10-digit phone and address');return 0}return 1}
+function pdf(b){const d=new jspdf.jsPDF();d.setFontSize(16);d.text(co(),14,16);d.setFontSize(10);
+d.text(`Name: ${b.name}\nPhone: ${b.phone}\nAddress: ${b.addr}\nDate: ${new Date(b.date).toLocaleString('en-IN')}`,14,24);
+d.autoTable({startY:50,head:[['S.No','Product','Price','Qty','Amount']],body:b.lines.map((l,i)=>[i+1,l.n,l.p,l.q,l.a.toFixed(2)]),foot:[['','','','Total','Rs. '+b.total.toFixed(2)]],headStyles:{fillColor:[221,36,118]},footStyles:{fillColor:[40,40,40]}});return d}
+async function go(wa){if(!chk())return;const L=lines(),b={date:new Date().toISOString(),name:$('#nm').value.trim(),phone:$('#ph').value,addr:$('#ad').value.trim(),lines:L,total:L.reduce((s,l)=>s+l.a,0)};const d=pdf(b),fn='order-'+b.name.replace(/\s+/g,'_')+'.pdf',f=new File([d.output('blob')],fn,{type:'application/pdf'});
+const txt=`${co()}: New order from ${b.name} (${b.phone}). Total Rs. ${b.total.toFixed(2)}`;
+if(wa&&navigator.canShare&&navigator.canShare({files:[f]})){try{return await navigator.share({files:[f],text:txt})}catch(e){if(e.name=='AbortError')return}}
+d.save(fn);if(wa){open(`https://wa.me/${D.shop.whatsapp}?text=${encodeURIComponent(txt+'\n(Order PDF attached)')}`);alert('PDF downloaded. WhatsApp-la attach (📎) pannitu send pannunga.')}}
+render();tot();
+</script></html>
